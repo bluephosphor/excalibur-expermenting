@@ -1,6 +1,5 @@
-import { Actor, Color, Engine, Input, vec, Vector } from 'excalibur';
+import { Actor, CollisionType, Color, Engine, Input, vec } from 'excalibur';
 import { Game } from './main';
-import { lerp } from './util';
 
 export class Player extends Actor {
     
@@ -15,9 +14,10 @@ export class Player extends Actor {
             height: 32,
             color: Color.Red,
             pos: vec(x, y),
+            collisionType: CollisionType.Active
         });
         this.maxSpeed = 30;
-        this.motion.inertia = 10;
+        //this.motion.inertia = 10;
         Game.add(this);
     }
 
