@@ -1,5 +1,5 @@
 export const lerp = (a: number, b: number, amt: number, nosnap?: boolean) => {
-    const _v = a + amt * ( b - a );
+    const _v = a + amt * (b - a);
     if (nosnap) {
         return _v;
     } else {
