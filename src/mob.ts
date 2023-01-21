@@ -19,18 +19,22 @@ export class Mob extends Actor {
     }
 
     private _commitMovement(delta: number) {
-        this.vel.x += this.accel * delta * this.move.x;
-        this.vel.y += this.accel * delta * this.move.y;
+        if (this.move.x === 0) {
+            this.vel.x *= this.frict;
+        } else {
+            this.vel.x += this.accel * delta * this.move.x;
+        }
 
+        if (this.move.y === 0) {
+            this.vel.y *= this.frict;
+        } else {
+            this.vel.y += this.accel * delta * this.move.y;
+        }
         this.vel.clampMagnitude(this.maxSpeed * delta);
-
-        if (this.move.x === 0) this.vel.x *= this.frict;
-        if (this.move.y === 0) this.vel.y *= this.frict;
     }
 
     public update(engine: Engine, delta: number) {
-        super.update(engine, delta);
-
         this._commitMovement(delta);
+        super.update(engine, delta);
     }
 }
