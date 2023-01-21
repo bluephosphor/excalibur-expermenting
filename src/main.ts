@@ -1,7 +1,6 @@
-import { Actor, CollisionType, Color, Engine, Physics, vec } from 'excalibur';
+import { Color, Engine } from 'excalibur';
 import { Player } from './player';
-
-Physics.useRealisticPhysics();
+import { Wall } from './wall';
 
 export const Game = new Engine({
     width: 800,
@@ -9,16 +8,15 @@ export const Game = new Engine({
     backgroundColor: Color.Black,
 });
 
-const wall = new Actor({
-    x: 320,
-    y: 480,
-    width: 640,
-    height: 32,
-    color: Color.White,
-    collisionType: CollisionType.Fixed,
-});
-Game.add(wall);
+new Player(Game.halfDrawWidth, Game.halfDrawHeight);
+new Wall(16,300, 32, 600);
+new Wall(300,300, 128, 32);
 
-const player = new Player(Game.halfDrawWidth, Game.halfDrawHeight);
+const diag = new Wall(400,400, 256, 16);
+
+diag.on("postupdate", () => {
+    diag.rotation += 0.01;
+})
+
 
 Game.start();
