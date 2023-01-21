@@ -12,7 +12,7 @@ new Player(Game.halfDrawWidth, Game.halfDrawHeight);
 new Wall(16,300, 32, 600);
 new Wall(300,300, 128, 32);
 
-const diag = new Wall(400,400, 256, 16);
+const diag = new Wall(400,400, 256, 32);
 
 diag.on("postupdate", () => {
     diag.rotation += 0.01;
