@@ -1,24 +1,45 @@
 import { Actor, CollisionType, Color, Engine, vec } from 'excalibur';
 import { Game } from './main';
 
+export type State = (engine: Engine, delta: number) => void;
+
 export class Mob extends Actor {
     public accel = 5;
     public frict = 0.85;
     public maxSpeed = 30;
     public move = vec(0, 0);
+    public initState: boolean;
+    public state: State;
 
     constructor(x: number, y: number) {
         super({
-            name: 'player',
+            name: 'mob',
             radius: 16,
             color: Color.Red,
             pos: vec(x, y),
             collisionType: CollisionType.Active,
         });
+        this.initState = false;
+        this.state = this.defaultState;
         Game.add(this);
     }
 
-    private _commitMovement(delta: number) {
+    public setState(state: State) {
+        this.initState = true;
+        this.state = state;
+    }
+
+    public defaultState(engine: Engine, delta: number) {
+        if (this.initState) {
+            this.accel = 5;
+            this.frict = 0.85;
+            this.maxSpeed = 30;
+            this.initState = false;
+        }
+        this.commitMovement(engine, delta);
+    }
+
+    public commitMovement(engine: Engine, delta: number) {
         if (this.move.x === 0) {
             this.vel.x *= this.frict;
         } else {
@@ -34,7 +55,7 @@ export class Mob extends Actor {
     }
 
     public update(engine: Engine, delta: number) {
-        this._commitMovement(delta);
+        this.state(engine, delta);
         super.update(engine, delta);
     }
 }
