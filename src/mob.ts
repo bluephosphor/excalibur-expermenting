@@ -1,4 +1,4 @@
-import { Actor, CollisionType, Color, Engine, vec } from 'excalibur';
+import { Actor, CollisionType, Color, Engine, ImageSource, Sprite, vec } from 'excalibur';
 import { Game } from './main';
 
 export type State = (engine: Engine, delta: number) => void;
@@ -9,6 +9,7 @@ export class Mob extends Actor {
     public maxSpeed = 30;
     public move = vec(0, 0);
     public initState: boolean;
+    public sprite: Sprite | undefined;
     public state: State;
 
     constructor(x: number, y: number) {
@@ -29,6 +30,24 @@ export class Mob extends Actor {
         this.state = state;
     }
 
+    public setSprite(img: ImageSource) {
+        img.load();
+        this.sprite = new Sprite({
+            image: img,
+            sourceView: {
+                x: 0,
+                y: 0,
+                width: 32,
+                height: 32,
+            },
+            destSize: {
+                width: 64,
+                height: 64,
+            },
+        });
+        this.graphics.use(this.sprite);
+    }
+
     public defaultState(engine: Engine, delta: number) {
         if (this.initState) {
             this.accel = 5;
@@ -44,6 +63,8 @@ export class Mob extends Actor {
             this.vel.x *= this.frict;
         } else {
             this.vel.x += this.accel * delta * this.move.x;
+            if (this.sprite)
+                this.sprite.scale.x = Math.sign(this.vel.x);
         }
 
         if (this.move.y === 0) {

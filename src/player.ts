@@ -1,5 +1,6 @@
-import { Color, Engine, Input, vec } from 'excalibur';
+import { Color, Engine, Input, ImageSource, vec } from 'excalibur';
 import { Mob } from './mob';
+import { lerp } from './util';
 
 export class Player extends Mob {
     private _tpCounter = 0;
@@ -8,6 +9,7 @@ export class Player extends Mob {
         super(x, y);
         this._setName('Player');
         this.setState(this.defaultState);
+        this.setSprite(new ImageSource('/spr_ghost_strip8.png'));
     }
 
     public processInput(engine: Engine) {
@@ -19,19 +21,20 @@ export class Player extends Mob {
             Number(engine.input.keyboard.isHeld(Input.Keys.ArrowUp));
 
         this.move = vec(controllerX, controllerY).normalize();
-        if (controllerX === 0) this.move.x = 0;
         if (controllerY === 0) this.move.y = 0;
+        if (controllerX === 0) this.move.x = 0;
     }
 
     public defaultState(engine: Engine, delta: number): void {
         if (this.initState) {
             this.color = Color.Cyan;
-            this.accel = 5;
+            this.accel = 3;
             this.frict = 0.85;
             this.maxSpeed = 30;
             this.initState = false;
         }
-
+        if (this.sprite)
+            this.sprite.opacity = lerp(this.sprite.opacity, 1, 0.2);
         this.processInput(engine);
         this.commitMovement(engine, delta);
 
@@ -41,18 +44,23 @@ export class Player extends Mob {
 
     public teleportState(engine: Engine, delta: number): void {
         if (this.initState) {
-            this.color = Color.fromHex('#1a1a1a');
+            this.color = Color.fromHex('#2a2a2a');
             this.accel = 10;
             this.frict = 1;
             this.maxSpeed = 100;
-            this._tpCounter = 15;
+            this._tpCounter = 10;
             this.initState = false;
         }
-
+        if (this.sprite)
+            this.sprite.opacity = lerp(this.sprite.opacity, 0.2, 0.2);
         this.processInput(engine);
         this.commitMovement(engine, delta);
 
         this._tpCounter--;
-        if (this._tpCounter <= 0) this.setState(this.defaultState);
+        if (
+            this._tpCounter <= 0 ||
+            engine.input.keyboard.wasPressed(Input.Keys.Z)
+        )
+            this.setState(this.defaultState);
     }
 }

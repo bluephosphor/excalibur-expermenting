@@ -3,6 +3,7 @@ import { Player } from './player';
 import { Wall } from './wall';
 
 export const Game = new Engine({
+    canvasElementId: 'game',
     width: 800,
     height: 600,
     backgroundColor: Color.Black,

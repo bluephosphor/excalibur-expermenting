@@ -1,0 +1,39 @@
+{
+  "name": "game",
+  "ogmoVersion": "3.4.0",
+  "levelPaths": ["."],
+  "backgroundColor": "#282c34ff",
+  "gridColor": "#3c4049cc",
+  "anglesRadians": true,
+  "directoryDepth": 5,
+  "layerGridDefaultSize": {"x": 32, "y": 32},
+  "levelDefaultSize": {"x": 320, "y": 240},
+  "levelMinSize": {"x": 128, "y": 128},
+  "levelMaxSize": {"x": 4096, "y": 4096},
+  "levelValues": [],
+  "defaultExportMode": ".json",
+  "compactExport": false,
+  "externalScript": "",
+  "playCommand": "",
+  "entityTags": [],
+  "layers": [
+    {
+      "definition": "grid",
+      "name": "grid_layer",
+      "gridSize": {"x": 32, "y": 32},
+      "exportID": "42260136",
+      "arrayMode": 0,
+      "legend": {"0": "#000000ff", "1": "#ffffffff", "2": "#3f69a0ff", "3": "#502b0cff"}
+    },
+    {
+      "definition": "entity",
+      "name": "entity_layer",
+      "gridSize": {"x": 32, "y": 32},
+      "exportID": "42795602",
+      "requiredTags": [],
+      "excludedTags": []
+    }
+  ],
+  "entities": [],
+  "tilesets": []
+}
