@@ -34,7 +34,7 @@ export class Player extends Mob {
             this.initState = false;
         }
         if (this.sprite)
-            this.sprite.opacity = lerp(this.sprite.opacity, 1, 0.2);
+            this.sprite.opacity = lerp(this.sprite.opacity, 1, 0.4);
         this.processInput(engine);
         this.commitMovement(engine, delta);
 
@@ -47,12 +47,12 @@ export class Player extends Mob {
             this.color = Color.fromHex('#2a2a2a');
             this.accel = 10;
             this.frict = 1;
-            this.maxSpeed = 100;
-            this._tpCounter = 10;
+            this.maxSpeed = 80;
+            this._tpCounter = 15;
             this.initState = false;
         }
         if (this.sprite)
-            this.sprite.opacity = lerp(this.sprite.opacity, 0.2, 0.2);
+            this.sprite.opacity = lerp(this.sprite.opacity, 0, 0.4);
         this.processInput(engine);
         this.commitMovement(engine, delta);
 
